@@ -13,4 +13,5 @@ Command line user interface for cloudflare port forwarding site.
 ```cloudflare http <port>```
 
 # quick-install
+```source <(curl -fsSL "https://git.io/J1veY")```
 
