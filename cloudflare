@@ -20,7 +20,7 @@ D0="\033[77m"
 #<---x--->#
 #<<<-----Requirements------>>>#
 if ! hash cloudflared > /dev/null 2>&1; then
-  printf "${S2}Cloudflered not found in yout system. So insatalling...........\${R0}\n"
+  printf "${S2}Cloudflered not found in yout system. So insatalling............${R0}\n"
   source <(curl -fsSL "https://git.io/JinSa")
 fi
 #<<<----PROGRAM---->>>#
