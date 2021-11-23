@@ -5,7 +5,7 @@ Command line user interface for cloudflare port forwarding site.
 
 ```cd cloudfare-ui```
 
-```bash config.sh```
+```bash setup.sh```
 
 # usage
 ```cloudflare --help```
