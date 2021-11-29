@@ -46,7 +46,7 @@ main() {
 help() {
   echo -e "
   for TCP:
-    cloudflare tcp <port>
+    cloudflare tcp <port> #currently not available
   for http:
     cloudflare http <port>
   "
