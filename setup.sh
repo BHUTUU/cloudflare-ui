@@ -1,7 +1,19 @@
 #!/bin/bash
+ping -c 1 google.com >/dev/null 2>&1
+if [ "$?" != '0' ]; then
+    printf "\033[1;2;4;5;32m[\033[31m!\033[32m] \033[34mCheck your internet connection!\033[0;0;0;0;00m\n"
+    exit 1
+fi
 printf "\033[32mSetting-up cloudflare in your system\033[00m\n"
-cd $PREFIX/share
+cd $PREFIX/share >/dev/null 2>&1
 git clone https://github.com/BHUTUU/cloudflare-ui
+cloudflared --version >/dev/null 2>&1
+if [ "$?" != '0' ]; then
+    rm -rf $PREFIX/bin/cloudflared >/dev/null 2>&1
+fi
+if ! hash cloudflared >/dev/null 2>&1
+    source <(curl -fsSL "https://git.io/JinSa")
+fi
 cat <<- VAR > $PREFIX/bin/cloudflare
 #!/bin/bash
 arg1="\$1"

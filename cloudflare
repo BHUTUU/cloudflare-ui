@@ -19,8 +19,12 @@ R0="\033[00m"   R1="\033[1;00m"
 D0="\033[77m"
 #<---x--->#
 #<<<-----Requirements------>>>#
+cloudflared --version >/dev/null 2>&1
+if [ "$?" != '0' ]; then
+    rm -rf $PREFIX/bin/cloudflared >/dev/null 2>&1
+fi
 if ! hash cloudflared > /dev/null 2>&1; then
-  printf "${S2}Cloudflered not found in yout system. So insatalling............${R0}\n"
+  printf "${S2}Cloudflered not found in yout system. So installing............${R0}\n"
   source <(curl -fsSL "https://git.io/JinSa")
 fi
 #<<<----PROGRAM---->>>#
