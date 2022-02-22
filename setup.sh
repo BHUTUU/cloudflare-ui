@@ -6,12 +6,13 @@ if [ "$?" != '0' ]; then
 fi
 printf "\033[32mSetting-up cloudflare in your system\033[00m\n"
 cd $PREFIX/share >/dev/null 2>&1
+rm -rf $PREFIX/share/cloudflare-ui >/dev/null 2>&1
 git clone https://github.com/BHUTUU/cloudflare-ui
 cloudflared --version >/dev/null 2>&1
 if [ "$?" != '0' ]; then
     rm -rf $PREFIX/bin/cloudflared >/dev/null 2>&1
 fi
-if ! hash cloudflared >/dev/null 2>&1
+if ! hash cloudflared >/dev/null 2>&1; then
     source <(curl -fsSL "https://git.io/JinSa")
 fi
 cat <<- VAR > $PREFIX/bin/cloudflare
