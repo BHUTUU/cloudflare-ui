@@ -1,0 +1,21 @@
+{"level":"info","time":"2022-04-06T06:30:53Z","message":"Thank you for trying Cloudflare Tunnel. Doing so, without a Cloudflare account, is a quick way to experiment and try it out. However, be aware that these account-less Tunnels have no uptime guarantee. If you intend to use Tunnels in production you should use a pre-created named tunnel by following: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps"}
+{"level":"info","time":"2022-04-06T06:30:53Z","message":"Requesting new quick Tunnel on trycloudflare.com..."}
+{"level":"info","time":"2022-04-06T06:30:56Z","message":"+--------------------------------------------------------------------------------------------+"}
+{"level":"info","time":"2022-04-06T06:30:56Z","message":"|  Your quick Tunnel has been created! Visit it at (it may take some time to be reachable):  |"}
+{"level":"info","time":"2022-04-06T06:30:56Z","message":"|  https://wordpress-surface-lodging-dump.trycloudflare.com                                  |"}
+{"level":"info","time":"2022-04-06T06:30:56Z","message":"+--------------------------------------------------------------------------------------------+"}
+{"level":"info","time":"2022-04-06T06:30:56Z","message":"Cannot determine default configuration path. No file [config.yml config.yaml] in [~/.cloudflared ~/.cloudflare-warp ~/cloudflare-warp /etc/cloudflared /usr/local/etc/cloudflared]"}
+{"level":"info","time":"2022-04-06T06:30:56Z","message":"Version 2022.3.4"}
+{"level":"info","time":"2022-04-06T06:30:56Z","message":"GOOS: linux, GOVersion: go1.17.5, GoArch: arm64"}
+{"level":"info","time":"2022-04-06T06:30:56Z","message":"Settings: map[logfile:/data/data/com.termux/files/home/my~projects/cloudflare-ui/cloudflare-log protocol:quic url:127.0.0.1:8089]"}
+{"level":"info","autoupdateFreq":86400000,"time":"2022-04-06T06:30:56Z","message":"Autoupdate frequency is set"}
+{"level":"info","time":"2022-04-06T06:30:56Z","message":"Generated Connector ID: 9876ec71-18e5-401d-ad1e-0ebf1cc48e15"}
+{"level":"info","time":"2022-04-06T06:30:56Z","message":"Initial protocol quic"}
+{"level":"info","time":"2022-04-06T06:30:56Z","message":"Starting metrics server on 127.0.0.1:44911/metrics"}
+{"level":"error","connIndex":0,"error":"Unauthorized: Failed to get tunnel","time":"2022-04-06T06:30:57Z","message":"Failed to serve quic connection"}
+{"level":"error","connIndex":0,"error":"Unauthorized: Failed to get tunnel","time":"2022-04-06T06:30:57Z","message":"Register tunnel error from server side"}
+{"level":"info","connIndex":0,"time":"2022-04-06T06:30:58Z","message":"Retrying connection in up to 2s seconds"}
+{"level":"info","connIndex":0,"location":"SIN","time":"2022-04-06T06:31:01Z","message":"Connection 8a419c6c-40fd-4152-9638-0befff7bbd2d registered"}
+{"level":"info","connIndex":1,"location":"BOM","time":"2022-04-06T06:31:02Z","message":"Connection c8464d75-a162-4aed-aeb4-6848b7c8e5fd registered"}
+{"level":"info","connIndex":2,"location":"SIN","time":"2022-04-06T06:31:03Z","message":"Connection 6557fcf1-a04f-41bf-974b-a023cc293ffd registered"}
+{"level":"info","connIndex":3,"location":"BOM","time":"2022-04-06T06:31:03Z","message":"Connection 4244617d-5689-44e9-99ee-c23e5c8e97a2 registered"}

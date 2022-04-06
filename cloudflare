@@ -6,6 +6,7 @@
 PWD=$(pwd)
 ar1="$1"
 ar2="$2"
+OS=`uname -o`
 #<<<-----colors----->>>#
 S0="\033[1;30m" B0="\033[1;40m"
 S1="\033[1;31m" B1="\033[1;41m"
@@ -19,8 +20,8 @@ R0="\033[00m"   R1="\033[1;00m"
 D0="\033[77m"
 #<---x--->#
 #<<<-----Requirements------>>>#
-cloudflared --version >/dev/null 2>&1
-if [ "$?" != '0' ]; then
+version=$(cloudflared --version)
+if [[ $version != *'version'* ]]; then
     rm -rf $PREFIX/bin/cloudflared >/dev/null 2>&1
 fi
 if ! hash cloudflared > /dev/null 2>&1; then
@@ -40,6 +41,36 @@ main() {
     killall cloudflared > /dev/null 2>&1
     banner
     HTTP
+  elif [[ ${ar1,,} == '-u' || ${ar1,,} == '--update' ]]; then
+    if [[ ${OS,,} == *'android'* ]]; then
+      rm -rf $PREFIX/bin/cloudflare >/dev/null 2>&1
+      rm -rf $PREFIX/bin/cloudflared >/dev/null 2>&1
+      rm -rf $PREFIX/share/cloudflare-ui > /dev/null 2>&1
+      cd $PREFIX/share >/dev/null 2>&1
+      git clone https://github.com/BHUTUU/cloudflare-ui
+cat <<- CONF >$PREFIX/bin/cloudflare
+#!/bin/bash
+arg1="\$1"
+arg2="\$2"
+cd $PREFIX/share/cloudflare-ui
+bash cloudflare \${arg1} \${arg2}
+CONF
+chmod +x $PREFIX/bin/cloudflare
+    else
+      sudo rm -rf /usr/bin/cloudflare > /dev/null 2>&1
+      sudo rm -rf /usr/bin/cloudflared >/dev/null 2>&1
+      sudo rm -rf /usr/share/cloudflare-ui > /dev/null 2>&1
+      cd /usr/share>/dev/null 2>&1
+      git clone https://github.com/BHUTUU/cloudflare-ui
+cat <<- EQF >/usr/bin/cloudflare
+#!/bin/bash
+arg1="\$1"
+arg2="\$2"
+cd /usr/share/cloudflare-ui
+bash cloudflare \${arg1} \${arg2}
+EQF
+chmod +x /usr/bin/cloudflare
+    fi
   elif [[ ${ar1,,} == '--help' || ${ar1} == '-h' ]]; then
     help
   else
@@ -49,10 +80,10 @@ main() {
 }
 help() {
   echo -e "
-  for TCP:
-    cloudflare tcp <port> #currently not available
-  for http:
+  USAGE:
     cloudflare http <port>
+  UPDATE:
+    cloudflare -u
   "
 }
 wait() {
@@ -68,16 +99,35 @@ banner() {
   printf "${S4}  Author: ${S7}Suman Kumar ~BHUTUU${R0}\n"; wait
   printf "${S5}[___________________cloudflare-UI___________________]${R0}\n\n"; wait
 }
+wait2() {
+  sleep 0.1
+}
+Animate() {
+  printf "${S2}Generating Link${S5}      ${R0}\r"; wait2
+  printf "${S2}Generating Link${S5}.     ${R0}\r"; wait2
+  printf "${S2}Generating Link${S5}..    ${R0}\r"; wait2
+  printf "${S2}Generating Link${S5}...   ${R0}\r"; wait2
+  printf "${S2}Generating Link${S5}....  ${R0}\r"; wait2
+  printf "${S2}Generating Link${S5}..... ${R0}\r"; wait2
+}
 HTTP() {
   rm -rf ${PWD}/cloudflare-log > /dev/null 2>&1
   if [[ ${PWD} == *'com.termux'* ]]; then
     termux-chroot cloudflared -url 127.0.0.1:${ar2} --logfile ${PWD}/cloudflare-log > /dev/null 2>&1 &
-    sleep 5
+    sleep 2
   else
     cloudflared -url 127.0.0.1:${ar2} --logfile ${PWD}/cloudflare-log > /dev/null 2>&1 &
     sleep 5
   fi
+  while true; do
   forward=$(grep -o 'https://[-0-9a-z]*\.trycloudflare.com' "${PWD}/cloudflare-log")
-  printf "${S4}FORWARDING:${R0}${D0} %s${R0}\n" ${forward}
+  printf "\033[?25l"
+  Animate
+  if [ ! -z $forward ]; then
+    printf "\033[?12l\033[?25h"
+    printf "${S4}FORWARDING:${R0}${D0} %s${R0}\n" ${forward}
+    break
+  fi
+  done
 }
 main
