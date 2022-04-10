@@ -6,6 +6,7 @@
 PWD=$(pwd)
 ar1="$1"
 ar2="$2"
+ar3="$3"
 OS=`uname -o`
 #<<<-----colors----->>>#
 S0="\033[1;30m" B0="\033[1;40m"
@@ -35,12 +36,19 @@ main() {
      exit 1
   fi
   if [[ ${ar1,,} == 'http' ]]; then
-    printf "${S4} Welcome to cloudflare !${R0}\n\n"
-    pid=$(ps aux | grep cloudflared | awk '{print $2}')
-    kill $pid > /dev/null 2>&1
-    killall cloudflared > /dev/null 2>&1
-    banner
-    HTTP
+    if [[ $ar3 == '-s' || $ar3 == '--silent' ]]; then
+      pids=$(ps aux | grep cloudflare | awk '{print $2}')
+      kill $pidm > /dev/null 2>&1
+      killall cloudflared >/dev/null 2>&1
+      HTTP -s
+    else
+      printf "${S4} Welcome to cloudflare !${R0}\n\n"
+      pid=$(ps aux | grep cloudflared | awk '{print $2}')
+      kill $pid > /dev/null 2>&1
+      killall cloudflared > /dev/null 2>&1
+      banner
+      HTTP
+    fi
   elif [[ ${ar1,,} == '-u' || ${ar1,,} == '--update' ]]; then
     if [[ ${OS,,} == *'android'* ]]; then
       rm -rf $PREFIX/bin/cloudflare >/dev/null 2>&1
@@ -80,8 +88,10 @@ chmod +x /usr/bin/cloudflare
 }
 help() {
   echo -e "
+  OPTIONS:
+    -s --silent           To ignore banner.
   USAGE:
-    cloudflare http <port>
+    cloudflare http <port> [OPTION]
   UPDATE:
     cloudflare -u
   "
@@ -125,7 +135,11 @@ HTTP() {
   Animate
   if [ ! -z $forward ]; then
     printf "\033[?12l\033[?25h"
-    printf "${S4}FORWARDING:${R0}${D0} %s${R0}\n" ${forward}
+    if [[ $1 == '-s' || '--silent' ]]; then
+      printf "%s\n" ${forward}
+    else
+      printf "${S4}FORWARDING:${R0}${D0} %s${R0}\n" ${forward}
+    fi
     break
   fi
   done
