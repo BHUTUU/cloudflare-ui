@@ -38,14 +38,14 @@ main() {
   if [[ ${ar1,,} == 'http' ]]; then
     if [[ $ar3 == '-s' || $ar3 == '--silent' ]]; then
       pids=$(ps aux | grep cloudflare | awk '{print $2}')
-      kill $pidm > /dev/null 2>&1
-      killall cloudflared >/dev/null 2>&1
+      kill -9 $pidm > /dev/null 2>&1
+#      killall cloudflared >/dev/null 2>&1
       HTTP -s
     else
       printf "${S4} Welcome to cloudflare !${R0}\n\n"
       pid=$(ps aux | grep cloudflared | awk '{print $2}')
-      kill $pid > /dev/null 2>&1
-      killall cloudflared > /dev/null 2>&1
+      kill -9 $pid > /dev/null 2>&1
+#      killall cloudflared > /dev/null 2>&1
       banner
       HTTP
     fi
