@@ -20,6 +20,21 @@ S7="\033[1;37m" B7="\033[1;47m"
 R0="\033[00m"   R1="\033[1;00m"
 D0="\033[77m"
 #<---x--->#
+if [[ ${OS^^} == *'MSYS'* || ${OS^^} == *'WINDOWS'* ]]; then
+  PREFIX="/usr"
+  adminPerm=$(net user administrator | grep active | awk '{print $NF}')
+  case ${adminPerm,,} in
+    yes) opposite="no";;
+    no) opposite="yes";;
+    *) printf "Not possible to run this\n"; exit 1;;
+  esac
+  net user administrator /active:${opposite} >/dev/null 2>&1
+  adminPerm=$(net user administrator | grep active | awk '{print $NF}')
+  if [[ ${adminPerm,,} != "${opposite}" ]]; then
+    printf "${S2}[${S1}!${S2}]${S4}Run this command prompt or shell in Administrator mode${R0}\n"
+    exit 1
+  fi
+fi
 #<<<-----Requirements------>>>#
 version=$(cloudflared --version)
 if [[ $version != *'version'* ]]; then
@@ -65,7 +80,7 @@ cd $PREFIX/share/cloudflare-ui
 bash cloudflare \${arg1} \${arg2} \${arg3}
 CONF
 chmod +x $PREFIX/bin/cloudflare
-    else
+    elif [[ ${OS,,} == *'linux'* ]]; then
       sudo rm -rf /usr/bin/cloudflare > /dev/null 2>&1
       sudo rm -rf /usr/bin/cloudflared >/dev/null 2>&1
       sudo rm -rf /usr/share/cloudflare-ui > /dev/null 2>&1
@@ -80,6 +95,22 @@ cd /usr/share/cloudflare-ui
 bash cloudflare \${arg1} \${arg2} \${arg3}
 EQF
 chmod +x /usr/bin/cloudflare
+    elif [[ ${OS^^} == *'MSYS'* || ${OS^^} == *'WINDOWS'* ]]; then
+    rm -rf /usr/share/cloudflare-ui >/dev/null 2>&1
+    rm -rf /usr/bin/cloudflare >/dev/null 2>&1
+    cd $PREFIX/share >/dev/null 2>&1
+    git clone https://github.com/BHUTUU/cloudflare-ui
+cat <<- CONF >$PREFIX/bin/cloudflare
+#!/bin/bash
+arg1="\$1"
+arg2="\$2"
+arg3="\$3"
+cd $PREFIX/share/cloudflare-ui
+bash cloudflare \${arg1} \${arg2} \${arg3}
+CONF
+chmod +x /usr/bin/cloudflare
+    else
+      printf "${S2}[${S1}!${S2}]${S4}Please update manually :/\n"
     fi
   elif [[ ${ar1,,} == '--help' || ${ar1} == '-h' ]]; then
     help
