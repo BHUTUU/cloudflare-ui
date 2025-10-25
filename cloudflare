@@ -46,6 +46,13 @@ if ! hash cloudflared > /dev/null 2>&1; then
 fi
 #<<<----PROGRAM---->>>#
 main() {
+  if [[ ${OS^^} == "GNU/LINUX" ]]; then
+    userType=$(whoami)
+    if [[ ${userType} != "root" ]]; then
+      printf "${S2}[${S1}!${S2}]${S4}Please run as root!\n"
+      exit 1
+    fi
+  fi
   if [[ -z "$ar1" ]]; then
      printf "${S2}[${S1}!${S2}]${S4}Arguments missing!! use '--help' for the help menu\n"
      exit 1
